@@ -4,12 +4,15 @@ const http = require("http");
 
 const config = require("./config");
 
+const port = config.port || process.env.PORT;
+const path = config.path || process.env.
+
 function onServerStart() {
     console.log("Connected")
 }
 
 function onServerListen() {
-    console.log(`Server is running on port ${config.path}:${config.port}`);
+    console.log(`Server is running on port ${config.path}:${port}`);
 }
 
 const server = http.createServer( (request, response) => {
@@ -60,4 +63,4 @@ const server = http.createServer( (request, response) => {
     // response.end(responseContent);
 } );
 server.on("connection", onServerStart);
-server.listen(config.port, config.path, onServerListen);
+server.listen(port, config.path, onServerListen);
