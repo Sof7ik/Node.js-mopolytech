@@ -5,7 +5,6 @@ const http = require("http");
 const config = require("./config");
 
 const port = config.port || process.env.PORT;
-const path = config.path || process.env.
 
 function onServerStart() {
     console.log("Connected")
