@@ -15,7 +15,7 @@ function onServerListen() {
 const server = http.createServer( (request, response) => {
     console.log(`request ${request.method} ${request.url}`)
 
-    let status = 400, headers = {}, responseContent = "";
+    let status = 400, headers = {}, responseContent = {"test": "test"};
 
     if (request.url === "/") {
         status = 200;
@@ -27,21 +27,17 @@ const server = http.createServer( (request, response) => {
     if (request.url === "/comments") {
         if (request.method === "POST") {
             let body = "";
-            request.on("data", chunk => {
+             request.on("data", chunk => {
                 body += chunk;
-                console.log(chunk)
             })
+
             request.on("end", () => {
-                console.log("body got");
+                console.log("body got \n", body);
+                responseContent = body;
+                console.log("response content", responseContent)
+
+                response.end(responseContent);
             })
-
-            status = 200;
-            headers = {
-                "Content-Type": "application/json"
-            }
-            responseContent = JSON.stringify(body);
-
-            console.log("get comments");
         }
         else {
             status = 405;
@@ -60,8 +56,8 @@ const server = http.createServer( (request, response) => {
         response.statusCode = 400;
     }
 
-    response.writeHead(status, headers);
-    response.end(responseContent);
+    // response.writeHead(status, headers);
+    // response.end(responseContent);
 } );
 server.on("connection", onServerStart);
 server.listen(config.port, config.path, onServerListen);
