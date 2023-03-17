@@ -103,7 +103,7 @@ function onServerListen() {
     console.log(`Server is running on port ${config.path}:${port}`);
 }
 
-const port = config.port || process.env.PORT;
+const port = process.env.PORT || config.port;
 
 const server = http.createServer((request, response) => {
     // console.log(`request ${request.method} ${request.url}`)
